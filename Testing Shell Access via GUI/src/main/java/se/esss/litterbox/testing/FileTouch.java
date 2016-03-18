@@ -21,7 +21,6 @@ import javax.swing.JTextArea;
 public class FileTouch {
 
 	private JFrame frame;
-	private JTextField filenameTField;
 	private JPanel settingsPanel;
 	private JPanel returnDataPanel;
 	private JTextArea returnDataTextArea;
@@ -62,11 +61,7 @@ public class FileTouch {
 		settingsPanel = new JPanel();
 		frame.getContentPane().add(settingsPanel, BorderLayout.NORTH);
 		
-		filenameTField = new JTextField("filename");
-		settingsPanel.add(filenameTField);
-		filenameTField.setColumns(10);
-		
-		JButton touchFileButton = new JButton("Touch the file");
+		JButton touchFileButton = new JButton("Ping Google");
 		settingsPanel.add(touchFileButton);
 		
 		returnDataPanel = new JPanel();
