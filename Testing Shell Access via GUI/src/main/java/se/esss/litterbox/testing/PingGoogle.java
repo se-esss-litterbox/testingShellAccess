@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JSlider;
 
-public class FileTouch {
+public class PingGoogle {
 
 	private JFrame frame;
 	private JPanel buttonPanel;
@@ -33,7 +33,7 @@ public class FileTouch {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FileTouch window = new FileTouch();
+					PingGoogle window = new PingGoogle();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,7 +45,7 @@ public class FileTouch {
 	/**
 	 * Create the application.
 	 */
-	public FileTouch() {
+	public PingGoogle() {
 		initialize();
 	}
 
