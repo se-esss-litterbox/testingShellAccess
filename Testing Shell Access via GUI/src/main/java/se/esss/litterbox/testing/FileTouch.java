@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JSlider;
 
 public class FileTouch {
 
@@ -61,6 +62,17 @@ public class FileTouch {
 		buttonPanel = new JPanel();
 		frame.getContentPane().add(buttonPanel, BorderLayout.NORTH);
 		
+		pingNumSlider = new JSlider();
+		pingNumSlider.setValue(25);
+		pingNumSlider.setMaximum(50);
+		pingNumSlider.setSnapToTicks(true);
+		pingNumSlider.setPaintTicks(true);
+		pingNumSlider.setPaintLabels(true);
+		pingNumSlider.setMajorTickSpacing(10);
+		pingNumSlider.setMinorTickSpacing(1);
+		pingNumSlider.setMinimum(1);
+		buttonPanel.add(pingNumSlider);
+		
 		JButton pingButton = new JButton("Ping Google");
 		buttonPanel.add(pingButton);
 		
@@ -93,7 +105,7 @@ public class FileTouch {
 				}
 			}
 			try {
-				Process p = Runtime.getRuntime().exec("ping -c 10 www.google.com");
+				Process p = Runtime.getRuntime().exec("ping -c " + pingNumSlider.getValue() + " www.google.com");
 				Thread t = new Thread(new UpdateThread(new BufferedReader(
 						new InputStreamReader(p.getInputStream()))));
 				t.start();
@@ -102,4 +114,5 @@ public class FileTouch {
 			}
 		}
 	};
+	private JSlider pingNumSlider;
 }
