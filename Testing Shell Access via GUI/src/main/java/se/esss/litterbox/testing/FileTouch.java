@@ -21,7 +21,7 @@ import javax.swing.JTextArea;
 public class FileTouch {
 
 	private JFrame frame;
-	private JPanel settingsPanel;
+	private JPanel buttonPanel;
 	private JPanel returnDataPanel;
 	private JTextArea returnDataTextArea;
 
@@ -58,11 +58,11 @@ public class FileTouch {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		settingsPanel = new JPanel();
-		frame.getContentPane().add(settingsPanel, BorderLayout.NORTH);
+		buttonPanel = new JPanel();
+		frame.getContentPane().add(buttonPanel, BorderLayout.NORTH);
 		
-		JButton touchFileButton = new JButton("Ping Google");
-		settingsPanel.add(touchFileButton);
+		JButton pingButton = new JButton("Ping Google");
+		buttonPanel.add(pingButton);
 		
 		returnDataPanel = new JPanel();
 		frame.getContentPane().add(returnDataPanel, BorderLayout.SOUTH);
@@ -71,7 +71,7 @@ public class FileTouch {
 		returnDataTextArea.setRows(20);
 		returnDataTextArea.setColumns(40);
 		returnDataPanel.add(returnDataTextArea);
-		touchFileButton.addActionListener(touchFBtnAL);
+		pingButton.addActionListener(touchFBtnAL);
 		frame.pack();
 	}
 	
