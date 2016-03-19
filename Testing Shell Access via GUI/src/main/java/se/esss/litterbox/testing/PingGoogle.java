@@ -62,6 +62,10 @@ public class PingGoogle {
 		buttonPanel = new JPanel();
 		frame.getContentPane().add(buttonPanel, BorderLayout.NORTH);
 		
+		unthreadedPingBtn = new JButton("Unthreaded Ping");
+		unthreadedPingBtn.addActionListener(unThreadedPingAction);
+		buttonPanel.add(unthreadedPingBtn);
+		
 		pingNumSlider = new JSlider();
 		pingNumSlider.setValue(25);
 		pingNumSlider.setMaximum(50);
@@ -73,8 +77,8 @@ public class PingGoogle {
 		pingNumSlider.setMinimum(1);
 		buttonPanel.add(pingNumSlider);
 		
-		JButton pingButton = new JButton("Ping Google");
-		buttonPanel.add(pingButton);
+		JButton threadedPingBtn = new JButton("Threaded Ping");
+		buttonPanel.add(threadedPingBtn);
 		
 		returnDataPanel = new JPanel();
 		frame.getContentPane().add(returnDataPanel, BorderLayout.SOUTH);
@@ -83,11 +87,30 @@ public class PingGoogle {
 		returnDataTextArea.setRows(20);
 		returnDataTextArea.setColumns(40);
 		returnDataPanel.add(returnDataTextArea);
-		pingButton.addActionListener(touchFBtnAL);
+		threadedPingBtn.addActionListener(threadedPingAction);
 		frame.pack();
 	}
 	
-	public ActionListener touchFBtnAL = new ActionListener() {
+	public ActionListener unThreadedPingAction = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			try {
+				returnDataTextArea.setText("");
+				Process p = Runtime.getRuntime().exec("ping -c " + pingNumSlider.getValue() + " www.google.com");
+				BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+				String line = "";
+				while ((line = reader.readLine()) != null) {
+					returnDataTextArea.append(line + "\n");
+				}
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+	};
+	
+	public ActionListener threadedPingAction = new ActionListener() {
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			class UpdateThread implements Runnable {
 				BufferedReader reader;
@@ -105,6 +128,7 @@ public class PingGoogle {
 				}
 			}
 			try {
+				returnDataTextArea.setText("");
 				Process p = Runtime.getRuntime().exec("ping -c " + pingNumSlider.getValue() + " www.google.com");
 				Thread t = new Thread(new UpdateThread(new BufferedReader(
 						new InputStreamReader(p.getInputStream()))));
@@ -115,4 +139,5 @@ public class PingGoogle {
 		}
 	};
 	private JSlider pingNumSlider;
+	private JButton unthreadedPingBtn;
 }
