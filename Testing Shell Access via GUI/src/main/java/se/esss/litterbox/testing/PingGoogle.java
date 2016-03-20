@@ -3,10 +3,6 @@ package se.esss.litterbox.testing;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import java.awt.FlowLayout;
-import javax.swing.JTextField;
-
-import sun.net.www.content.text.plain;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -67,7 +63,7 @@ public class PingGoogle {
 		buttonPanel.add(unthreadedPingBtn);
 		
 		pingNumSlider = new JSlider();
-		pingNumSlider.setValue(25);
+		pingNumSlider.setValue(7);
 		pingNumSlider.setMaximum(50);
 		pingNumSlider.setSnapToTicks(true);
 		pingNumSlider.setPaintTicks(true);
@@ -97,13 +93,18 @@ public class PingGoogle {
 		public void actionPerformed(ActionEvent e) {
 			try {
 				returnDataTextArea.setText("");
-				Process p = Runtime.getRuntime().exec("ping -c " + pingNumSlider.getValue() + " www.google.com");
+				ProcessBuilder pBuilder = new ProcessBuilder("/sbin/ping", 
+						"-c", Integer.toString(pingNumSlider.getValue()), "www.google.com");
+				Process p = pBuilder.start();
+				System.out.println(p.waitFor());
+				//Process p = Runtime.getRuntime().exec("ping -c " + pingNumSlider.getValue() + " www.google.com");
 				BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 				String line = "";
 				while ((line = reader.readLine()) != null) {
+					System.out.println(line);
 					returnDataTextArea.append(line + "\n");
 				}
-			} catch (IOException e1) {
+			} catch (IOException | InterruptedException e1) {
 				e1.printStackTrace();
 			}
 		}
