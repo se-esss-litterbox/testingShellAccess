@@ -87,29 +87,6 @@ public class PingGoogle {
 		frame.pack();
 	}
 	
-	public ActionListener unThreadedPingAction = new ActionListener() {
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			try {
-				returnDataTextArea.setText("");
-				ProcessBuilder pBuilder = new ProcessBuilder("/sbin/ping", 
-						"-c", Integer.toString(pingNumSlider.getValue()), "www.google.com");
-				Process p = pBuilder.start();
-				System.out.println(p.waitFor());
-				//Process p = Runtime.getRuntime().exec("ping -c " + pingNumSlider.getValue() + " www.google.com");
-				BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-				String line = "";
-				while ((line = reader.readLine()) != null) {
-					System.out.println(line);
-					returnDataTextArea.append(line + "\n");
-				}
-			} catch (IOException | InterruptedException e1) {
-				e1.printStackTrace();
-			}
-		}
-	};
-	
 	public ActionListener threadedPingAction = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -135,6 +112,28 @@ public class PingGoogle {
 						new InputStreamReader(p.getInputStream()))));
 				t.start();
 			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+	};
+	
+	public ActionListener unThreadedPingAction = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			try {
+				returnDataTextArea.setText("");
+				ProcessBuilder pBuilder = new ProcessBuilder("/sbin/ping", 
+						"-c", Integer.toString(pingNumSlider.getValue()), "www.google.com");
+				Process p = pBuilder.start();
+				System.out.println(p.waitFor());
+				//Process p = Runtime.getRuntime().exec("ping -c " + pingNumSlider.getValue() + " www.google.com");
+				BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+				String line = "";
+				while ((line = reader.readLine()) != null) {
+					System.out.println(line);
+					returnDataTextArea.append(line + "\n");
+				}
+			} catch (IOException | InterruptedException e1) {
 				e1.printStackTrace();
 			}
 		}
