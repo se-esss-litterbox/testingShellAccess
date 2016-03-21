@@ -7,10 +7,16 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.awt.event.ActionEvent;
 
 public class ReportEnvironment {
 
 	private JFrame frame;
+	private JTextArea returnTextArea;
 
 	/**
 	 * Launch the application.
@@ -47,17 +53,47 @@ public class ReportEnvironment {
 		frame.getContentPane().add(btnPanel, BorderLayout.NORTH);
 		
 		JButton btnPrintEnvironmentVariables = new JButton("Print Environment Variables");
+		btnPrintEnvironmentVariables.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnPanel.add(btnPrintEnvironmentVariables);
 		
 		JPanel readbackPanel = new JPanel();
 		frame.getContentPane().add(readbackPanel, BorderLayout.CENTER);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setColumns(40);
-		textArea.setRows(30);
-		readbackPanel.add(textArea);
+		returnTextArea = new JTextArea();
+		returnTextArea.setColumns(40);
+		returnTextArea.setRows(30);
+		readbackPanel.add(returnTextArea);
 		
 		frame.pack();
 	}
+	
+	public ActionListener getEnvAction = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			class UpdateThread implements Runnable {
+				BufferedReader reader;
+				UpdateThread(BufferedReader r) {this.reader = r;}
+				@Override
+				public void run() {
+					String line = "";
+					try {
+						while ((line = this.reader.readLine()) != null) {
+							returnTextArea.append(line + "\n");
+						}
+					} catch (IOException e) {e.printStackTrace();}
+				}
+			}
+			try {
+				returnTextArea.setText("");
+				ProcessBuilder pBuilder = new ProcessBuilder("/usr/bin/env");
+				Process p = pBuilder.start();
+				Thread t = new Thread(new UpdateThread(new BufferedReader(new InputStreamReader(p.getInputStream()))));
+				t.start();
+			} catch (IOException e1) {e1.printStackTrace();}
+		}
+	};
 
 }
