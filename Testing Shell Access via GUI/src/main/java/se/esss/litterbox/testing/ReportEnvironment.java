@@ -3,6 +3,10 @@ package se.esss.litterbox.testing;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import javax.swing.JButton;
+import javax.swing.JTextArea;
 
 public class ReportEnvironment {
 
@@ -38,6 +42,22 @@ public class ReportEnvironment {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JPanel btnPanel = new JPanel();
+		frame.getContentPane().add(btnPanel, BorderLayout.NORTH);
+		
+		JButton btnPrintEnvironmentVariables = new JButton("Print Environment Variables");
+		btnPanel.add(btnPrintEnvironmentVariables);
+		
+		JPanel readbackPanel = new JPanel();
+		frame.getContentPane().add(readbackPanel, BorderLayout.CENTER);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setColumns(40);
+		textArea.setRows(30);
+		readbackPanel.add(textArea);
+		
+		frame.pack();
 	}
 
 }
