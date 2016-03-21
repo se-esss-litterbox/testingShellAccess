@@ -100,20 +100,15 @@ public class PingGoogle {
 						while ((line = this.reader.readLine()) != null) {
 							returnDataTextArea.append(line + "\n");
 						}
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+					} catch (IOException e) {e.printStackTrace();}
 				}
 			}
 			try {
 				returnDataTextArea.setText("");
 				Process p = Runtime.getRuntime().exec("ping -c " + pingNumSlider.getValue() + " www.google.com");
-				Thread t = new Thread(new UpdateThread(new BufferedReader(
-						new InputStreamReader(p.getInputStream()))));
+				Thread t = new Thread(new UpdateThread(new BufferedReader(new InputStreamReader(p.getInputStream()))));
 				t.start();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			} catch (IOException e1) {e1.printStackTrace();}
 		}
 	};
 	
@@ -126,16 +121,12 @@ public class PingGoogle {
 						"-c", Integer.toString(pingNumSlider.getValue()), "www.google.com");
 				Process p = pBuilder.start();
 				System.out.println(p.waitFor());
-				//Process p = Runtime.getRuntime().exec("ping -c " + pingNumSlider.getValue() + " www.google.com");
 				BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 				String line = "";
 				while ((line = reader.readLine()) != null) {
-					System.out.println(line);
 					returnDataTextArea.append(line + "\n");
 				}
-			} catch (IOException | InterruptedException e1) {
-				e1.printStackTrace();
-			}
+			} catch (IOException | InterruptedException e1) {e1.printStackTrace();}
 		}
 	};
 	private JSlider pingNumSlider;
