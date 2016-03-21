@@ -105,7 +105,9 @@ public class PingGoogle {
 			}
 			try {
 				returnDataTextArea.setText("");
-				Process p = Runtime.getRuntime().exec("ping -c " + pingNumSlider.getValue() + " www.google.com");
+				ProcessBuilder pBuilder = new ProcessBuilder("/sbin/ping", 
+						"-c", Integer.toString(pingNumSlider.getValue()), "www.google.com");
+				Process p = pBuilder.start();
 				Thread t = new Thread(new UpdateThread(new BufferedReader(new InputStreamReader(p.getInputStream()))));
 				t.start();
 			} catch (IOException e1) {e1.printStackTrace();}
