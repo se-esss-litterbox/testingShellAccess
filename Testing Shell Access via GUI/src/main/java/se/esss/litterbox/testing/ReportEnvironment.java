@@ -4,14 +4,19 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
+
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.awt.event.ActionEvent;
+import java.awt.ScrollPane;
 
 public class ReportEnvironment {
 
@@ -53,19 +58,22 @@ public class ReportEnvironment {
 		frame.getContentPane().add(btnPanel, BorderLayout.NORTH);
 		
 		JButton btnPrintEnvironmentVariables = new JButton("Print Environment Variables");
-		btnPrintEnvironmentVariables.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnPrintEnvironmentVariables.addActionListener(getEnvAction);
 		btnPanel.add(btnPrintEnvironmentVariables);
 		
 		JPanel readbackPanel = new JPanel();
 		frame.getContentPane().add(readbackPanel, BorderLayout.CENTER);
 		
 		returnTextArea = new JTextArea();
-		returnTextArea.setColumns(40);
-		returnTextArea.setRows(30);
-		readbackPanel.add(returnTextArea);
+		returnTextArea.setLineWrap(false);
+		returnTextArea.setColumns(50);
+		returnTextArea.setRows(40);
+		//readbackPanel.add(returnTextArea);
+		
+		JScrollPane scrollPane = new JScrollPane(returnTextArea);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		readbackPanel.add(scrollPane);
 		
 		frame.pack();
 	}
