@@ -96,7 +96,7 @@ public class ReportEnvironment {
 			}
 			try {
 				returnTextArea.setText("");
-				ProcessBuilder pBuilder = new ProcessBuilder("/usr/bin/env");
+				ProcessBuilder pBuilder = new ProcessBuilder("env");
 				Process p = pBuilder.start();
 				Thread t = new Thread(new UpdateThread(new BufferedReader(new InputStreamReader(p.getInputStream()))));
 				t.start();

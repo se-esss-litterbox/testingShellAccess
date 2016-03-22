@@ -80,8 +80,9 @@ public class PingGoogle {
 		frame.getContentPane().add(returnDataPanel, BorderLayout.SOUTH);
 		
 		returnDataTextArea = new JTextArea();
-		returnDataTextArea.setRows(20);
-		returnDataTextArea.setColumns(40);
+		returnDataTextArea.setLineWrap(true);
+		returnDataTextArea.setRows(30);
+		returnDataTextArea.setColumns(70);
 		returnDataPanel.add(returnDataTextArea);
 		threadedPingBtn.addActionListener(threadedPingAction);
 		frame.pack();
@@ -105,7 +106,7 @@ public class PingGoogle {
 			}
 			try {
 				returnDataTextArea.setText("");
-				ProcessBuilder pBuilder = new ProcessBuilder("/sbin/ping", 
+				ProcessBuilder pBuilder = new ProcessBuilder("ping", 
 						"-c", Integer.toString(pingNumSlider.getValue()), "www.google.com");
 				Process p = pBuilder.start();
 				Thread t = new Thread(new UpdateThread(new BufferedReader(new InputStreamReader(p.getInputStream()))));
@@ -119,16 +120,15 @@ public class PingGoogle {
 		public void actionPerformed(ActionEvent e) {
 			try {
 				returnDataTextArea.setText("");
-				ProcessBuilder pBuilder = new ProcessBuilder("/sbin/ping", 
+				ProcessBuilder pBuilder = new ProcessBuilder("ping", 
 						"-c", Integer.toString(pingNumSlider.getValue()), "www.google.com");
 				Process p = pBuilder.start();
-				System.out.println(p.waitFor());
 				BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 				String line = "";
 				while ((line = reader.readLine()) != null) {
 					returnDataTextArea.append(line + "\n");
 				}
-			} catch (IOException | InterruptedException e1) {e1.printStackTrace();}
+			} catch (IOException e1) {e1.printStackTrace();}
 		}
 	};
 	private JSlider pingNumSlider;
